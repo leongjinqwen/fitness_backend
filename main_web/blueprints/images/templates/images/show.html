@@ -1,0 +1,10 @@
+{% extends "_layout.html" %}
+{% block title %}
+  Show Image
+{% endblock %}
+{% block content %}
+<h1>{{user.username}}'s images</h1>
+{% for image in images %}
+<img src="{{image.image_url}}">
+{% endfor %}
+{% endblock %}

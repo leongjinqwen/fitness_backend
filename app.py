@@ -2,9 +2,13 @@ import os
 import config
 from flask import Flask
 from models.base_model import db
+from flask_login import LoginManager
+from clarifai.rest import ClarifaiApp
+
+app = ClarifaiApp(api_key=os.getenv('CLARIFAI_KEY'))
 
 web_dir = os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), 'instagram_web')
+    os.path.abspath(__file__)), 'main_web')
 
 app = Flask('NEXTAGRAM', root_path=web_dir)
 
@@ -13,6 +17,8 @@ if os.getenv('FLASK_ENV') == 'production':
 else:
     app.config.from_object("config.DevelopmentConfig")
 
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 @app.before_request
 def before_request():
@@ -25,3 +31,8 @@ def _db_close(exc):
         print(db)
         print(db.close())
     return exc
+
+@login_manager.user_loader
+def load_user(user_id):
+    from models.user import User
+    return User.get_by_id(user_id)

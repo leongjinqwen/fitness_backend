@@ -1,0 +1,60 @@
+{% extends "_layout.html" %}
+{% block title %}
+  Feed
+{% endblock %}
+{% assets %}
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endassets %}
+{% block content %}
+
+    <!-- {% for idol in current_user.idols%}
+        {{idol.idol.username}}
+        {% for image in idol.idol.images %}
+            <img src="{{image.image_url}}" width="500"/>
+        {% endfor %}
+    {% endfor %} -->
+
+
+
+
+
+    {% for image in images %}
+        <p>{{image.user.username}}</p>
+        <img src="{{image.image_url}}" width="500"/>
+    {% endfor %}
+    <script>
+        $(document).ready(function($) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                    };
+                    console.log(pos)
+                    $.ajax({
+                    url: "{{url_for('locations.create')}}",
+                    method: 'POST',
+                    data: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    success: function(response){
+                        if(response.ok){
+                        console.log('Created')
+                        }
+                    },
+                    error: function(e){
+                        console.log(e)
+                    }
+                    })
+                }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+            }
+        })
+    </script>
+    
+{% endblock %}

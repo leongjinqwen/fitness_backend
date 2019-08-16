@@ -1,0 +1,31 @@
+{% extends "_layout.html" %}
+{% block title %}
+  Profile
+{% endblock %}
+{% block content %}
+<h1>Profile</h1>
+<h5>{{user.username}}</h5>
+<img src="{{user.  profile_image_url}}" width="230" height="230" class="img-thumbnail border rounded-circle"/></br>
+{% if current_user.is_authenticated and current_user != user %}
+  {% if followed %}
+    <!-- if user already followed by current user,button shud show "unfollow" instead of "follow"-->
+    <form action="{{url_for('fanidols.delete',id=user.id)}}" method="POST">
+      <input type="submit" class="btn btn-outline-primary" value="Unfollow"/>
+    </form>        
+  {% else %}
+    <form action="{{url_for('fanidols.create',id=user.id)}}" method="POST">
+      <input type="submit" class="btn btn-outline-primary" value="Follow"/>
+    </form>
+  {% endif %}
+{% endif %}
+<div class="mt-5">
+  <h5>{{user.username}}'s photo</h5>
+  {% if user.private == False or current_user == user %}
+    {% for image in user.images %}
+      <img src="{{image.image_url}}" width="230" height="230" />
+    {% endfor %}
+  {% else %}
+    <p>This profile is private. Press follow {{user.username}} to access this content. </p>
+  {% endif %}
+</div>
+{% endblock %}

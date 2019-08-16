@@ -1,0 +1,36 @@
+{% extends "_layout.html" %}
+{% block title %}
+  Edit Page
+{% endblock %}
+{% block content %}
+    <h1>Edit profile</h1>
+    <form action="{{url_for('users.update',id=user.id)}}" method="POST" class="w-50" enctype="multipart/form-data">      
+        <div class="form-group">
+            <label for="name">Username:</label>
+            <input type='text' required name='username' class="form-control" value="{{user.username}}" / >
+            <small class="text-muted">* Capital letter in this field will be saved as lowercase letter.</small>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type='email' required name='email' class="form-control" value="{{user.email}}" / >
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type='password' required name='password' class="form-control" / >
+        </div>
+        <div class="form-check my-1">
+            {% if user.private == True %}
+            <input type="checkbox" class="form-check-input" name="private" checked>
+            {% else %}
+            <input type="checkbox" class="form-check-input" name="private">
+            {% endif %}
+            <label class="form-check-label" for="private">Private Account</label>
+            <small class="text-muted pl-2">When your account is private only people you approve can see your photos on Nextagram.Your existing followers won't be affected.</small>
+        </div>
+        
+        <button type="submit" class="btn btn-outline-primary mt-2">Update</button>
+    </form>
+
+
+
+{% endblock %}

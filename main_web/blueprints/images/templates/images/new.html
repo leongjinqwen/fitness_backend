@@ -1,0 +1,40 @@
+{% extends "_layout.html" %}
+{% block title %}
+  Upload Image
+{% endblock %}
+{% block content %}
+
+<h1>Upload Photo</h1>
+
+<form action="{{url_for('images.create')}}" method="POST" class="w-50" enctype="multipart/form-data">
+    
+    <div class="text-center rounded">
+      <img id="image" width="400" />
+    </div>
+    
+    <div class="custom-file my-2">
+      <input type="file" class="custom-file-input" name="user_file" accept="image/*" id="customFile">
+      <label class="custom-file-label" for="customFile">Choose file</label>
+      <span class="custom-file-control form-control-file"></span>
+    </div>
+    
+    <button type="submit" class="btn btn-outline-primary mt-2">Upload</button>
+</form>
+
+
+<script>
+    document.getElementById("customFile").onchange = function () {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+    $('.custom-file-input').on('change', function() { 
+        let fileName = $(this).val().split('\\').pop(); 
+        $(this).next('.custom-file-label').addClass("selected").html(fileName); 
+    });
+</script>
+{% endblock %}
