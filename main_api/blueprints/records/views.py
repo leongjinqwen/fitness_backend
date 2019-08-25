@@ -40,7 +40,7 @@ def get_record():
 			'chart':chart,     
 			'chartBmi':chartBmi     
 		}
-		return make_response(jsonify(responseObject)),201
+		return make_response(jsonify(responseObject)),200
 	else:
 		responseObject = {
 			'status': 'failed',

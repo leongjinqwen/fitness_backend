@@ -15,7 +15,7 @@ class User(UserMixin,BaseModel):
     age = pw.IntegerField(null=True)
     sex = pw.CharField(null=True)
     description = pw.TextField(null=True)
-    profile_pic = pw.TextField(default=True)
+    profile_pic = pw.TextField(null=True)
     private = pw.BooleanField(default=False)
 
     def validate(self):
